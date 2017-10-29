@@ -3,7 +3,7 @@ git config --global user.email "jeve0658@colorado.edu"
 git config --global user.user "Jeff Venicx"
 git config --global credential.helper 'cache --timeout=900'
 
-#standard install
+#initial  install programs
 sudo apt -qq install vim
 sudo apt -qq install terminator
 sudo apt -qq install synaptic
@@ -19,3 +19,4 @@ fi
 
 #setup configs
 sudo apt install compizconfig-settings-manager
+
