@@ -9,19 +9,14 @@ sudo apt -qq -y install terminator
 sudo apt -qq -y install synaptic
 
 #atom install
-if  dpkg
-then
-  wget -O atom-amd64.deb https://atom.io/download/deb
-  sudo dpkg -i atom-amd64.deb
-  sudo apt -qq -f install
-  sudo rm atom-amd64.deb
-fi
+wget -O atom-amd64.deb https://atom.io/download/deb
+sudo dpkg -i atom-amd64.deb
+sudo apt -qq -f install
+sudo rm atom-amd64.deb
+
 
 #slack install
-if $(dpkg-query -W -f='${Status}' slack 2>/dev/null | grep -c "ok installed") -eq 1];
-then
-  xdg-open https://slack.com/downloads/instructions/debian
-fi
+xdg-open https://slack.com/downloads/instructions/debian
 
 #setup configs
 sudo apt install compizconfig-settings-manager

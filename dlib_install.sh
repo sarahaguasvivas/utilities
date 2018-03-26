@@ -7,3 +7,7 @@ sudo apt -qq -y install libgtk-3-dev libboost-python-dev
 
 #python libs
 sudo pip install numpy
+
+#pull git repo
+cd ~/
+git clone https://github.com/davisking/dlib.git
