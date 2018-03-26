@@ -1,3 +1,14 @@
+#!/bin/bash
+
+# CONFIGURATION
+
+# OpenCV Version
+ocv_ver='3.3.0'
+
+# GUI framework: qt, gtk
+gui_fw='qt'
+
+
 # KEEP UBUNTU OR DEBIAN UP TO DATE
 
 sudo apt-get -y update
@@ -8,11 +19,22 @@ sudo apt-get -y autoremove
 
 # INSTALL THE DEPENDENCIES
 
+# Dependency modifications based on GUI choice
+case $gui_fw in
+qt)
+  gui_lib='qt5-default'
+  cmake_opts='-DWITH_QT=ON'
+  ;;
+gtk)
+  gui_lib='libgtkglext1-dev'
+  ;;
+esac
+
 # Build tools:
 sudo apt-get install -y build-essential cmake
 
-# GUI (if you want to use GTK instead of Qt, replace 'qt5-default' with 'libgtkglext1-dev' and remove '-DWITH_QT=ON' option in CMake):
-sudo apt-get install -y qt5-default libvtk6-dev
+# GUI
+sudo apt-get install -y ${gui_lib} libvtk6-dev
 
 # Media I/O:
 sudo apt-get install -y zlib1g-dev libjpeg-dev libwebp-dev libpng-dev libtiff5-dev libjasper-dev libopenexr-dev libgdal-dev
@@ -33,17 +55,17 @@ sudo apt-get install -y ant default-jdk
 sudo apt-get install -y doxygen
 
 
-# INSTALL THE LIBRARY (YOU CAN CHANGE '3.3.0' FOR THE LAST STABLE VERSION)
+# INSTALL THE LIBRARY
 
 sudo apt-get install -y unzip wget
-wget https://github.com/opencv/opencv/archive/3.3.0.zip
-unzip 3.3.0.zip
-rm 3.3.0.zip
-mv opencv-3.3.0 ../OpenCV
-cd ../OpenCV
+wget https://github.com/opencv/opencv/archive/${ocv_ver}.zip
+unzip ${ocv_ver}.zip
+rm ${ocv_ver}.zip
+mv opencv-${ocv_ver} OpenCV
+cd OpenCV
 mkdir build
 cd build
-cmake -DWITH_QT=ON -DWITH_OPENGL=ON -DFORCE_VTK=ON -DWITH_TBB=ON -DWITH_GDAL=ON -DWITH_XINE=ON -DBUILD_EXAMPLES=ON ..
+cmake ${cmake_opts} -DWITH_OPENGL=ON -DFORCE_VTK=ON -DWITH_TBB=ON -DWITH_GDAL=ON -DWITH_XINE=ON -DBUILD_EXAMPLES=ON ..
 make -j4
 sudo make install
 sudo ldconfig
